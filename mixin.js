@@ -1,10 +1,3 @@
-// react-mask-mixin
-// http://github.com/borbit/react-mask-mixin
-// Copyright (c) 2015 Serge Borbit
-// Licensed under the MIT license (http://www.opensource.org/licenses/mit-license.php)
-// Version: 0.0.3
-(function(root) {
-
 var MASK_REGEX = {
   '9': /\d/,
   'A': /[A-Za-z\u0410-\u044f\u0401\u0451\xc0-\xff\xb5]/,
@@ -36,10 +29,14 @@ var ReactMaskMixin = {
   },
 
   componentDidUpdate: function() {
-    this.getDOMNode().setSelectionRange(
-      this.mask.cursor,
-      this.mask.cursor
-    )
+    var input = this.getDOMNode();
+
+    if (input === document.activeElement) {
+      input.setSelectionRange(
+        this.mask.cursor,
+        this.mask.cursor
+      )
+    }
   },
 
   processValue: function(value) {
@@ -175,22 +172,4 @@ var ReactMaskMixin = {
   }
 }
 
-// Export ReactMaskMixin for CommonJS. If being loaded as an
-// AMD module, define it as such. Otherwise, just add
-// `ReactMaskMixin` to the global object
-if (typeof exports !== 'undefined') {
-  if (typeof module !== 'undefined' && module.exports) {
-    exports = module.exports = ReactMaskMixin;
-  }
-  exports.ReactMaskMixin = ReactMaskMixin;
-} else if (typeof define === 'function' && define.amd) {
-  // Return the ReactMaskMixin as an AMD module:
-  define([], function() {
-    return ReactMaskMixin;
-  });
-} else {
-  // Declare `ReactMaskMixin` on the root (global/window) object:
-  root['ReactMaskMixin'] = ReactMaskMixin;
-}
-
-})(this)
+export default ReactMaskMixin;
